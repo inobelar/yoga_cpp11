@@ -295,7 +295,7 @@ class YG_EXPORT Node : public ::YGNode {
 
  private:
   // Used to allow resetting the node
-  Node& operator=(Node&&) noexcept = default;
+  Node& operator=(Node&&) = default;
 
   float relativePosition(
       FlexDirection axis,
