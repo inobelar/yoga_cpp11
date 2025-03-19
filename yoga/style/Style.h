@@ -759,16 +759,16 @@ class YG_EXPORT Style {
   StyleValueHandle flexGrow_{};
   StyleValueHandle flexShrink_{};
   StyleValueHandle flexBasis_{StyleValueHandle::ofAuto()};
-  Edges margin_{};
-  Edges position_{};
-  Edges padding_{};
-  Edges border_{};
-  Gutters gap_{};
-  Dimensions dimensions_{
+  Edges margin_{{}};
+  Edges position_{{}};
+  Edges padding_{{}};
+  Edges border_{{}};
+  Gutters gap_{{}};
+  Dimensions dimensions_{{
       StyleValueHandle::ofAuto(),
-      StyleValueHandle::ofAuto()};
-  Dimensions minDimensions_{};
-  Dimensions maxDimensions_{};
+      StyleValueHandle::ofAuto()}};
+  Dimensions minDimensions_{{}};
+  Dimensions maxDimensions_{{}};
   StyleValueHandle aspectRatio_{};
 
   StyleValuePool pool_;

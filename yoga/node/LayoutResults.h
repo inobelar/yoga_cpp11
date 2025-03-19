@@ -41,7 +41,7 @@ struct LayoutResults {
   Direction lastOwnerDirection = Direction::Inherit;
 
   uint32_t nextCachedMeasurementsIndex = 0;
-  std::array<CachedMeasurement, MaxCachedMeasurements> cachedMeasurements = {};
+  std::array<CachedMeasurement, MaxCachedMeasurements> cachedMeasurements = {{}};
 
   CachedMeasurement cachedLayout{};
 
@@ -120,10 +120,10 @@ struct LayoutResults {
 
   std::array<float, 2> dimensions_ = {{YGUndefined, YGUndefined}};
   std::array<float, 2> measuredDimensions_ = {{YGUndefined, YGUndefined}};
-  std::array<float, 4> position_ = {};
-  std::array<float, 4> margin_ = {};
-  std::array<float, 4> border_ = {};
-  std::array<float, 4> padding_ = {};
+  std::array<float, 4> position_ = {{}};
+  std::array<float, 4> margin_ = {{}};
+  std::array<float, 4> border_ = {{}};
+  std::array<float, 4> padding_ = {{}};
 };
 
 } // namespace yoga

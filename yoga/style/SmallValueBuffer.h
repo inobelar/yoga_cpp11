@@ -128,7 +128,7 @@ class SmallValueBuffer {
   };
 
   uint16_t count_{0};
-  std::array<uint32_t, BufferSize> buffer_{};
+  std::array<uint32_t, BufferSize> buffer_{{}};
   std::bitset<BufferSize> wideElements_;
   std::unique_ptr<Overflow> overflow_;
 };
