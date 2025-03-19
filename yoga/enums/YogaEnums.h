@@ -7,7 +7,6 @@
 
 #pragma once
 
-#include <bit>
 #include <iterator>
 #include <type_traits>
 
