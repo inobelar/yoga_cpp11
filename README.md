@@ -16,7 +16,7 @@ such a useful library as Yoga should be distributed as widely as possible.
 
 Current state: based on [6455a84](https://github.com/facebook/yoga/commit/6455a848a76f433bdb48b2640b7f4644774c76fd) commit (Mar 11, 2025)
 
-> [NOTE]
+> [!NOTE]
 > The main implementation targets `C++11`, but to build the unit tests
 > (which rely on [GoogleTest](https://github.com/google/googletest)) needed
 > `C++17` support.
