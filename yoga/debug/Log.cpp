@@ -11,7 +11,8 @@
 #include <android/log.h>
 #endif
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 namespace {
 
@@ -104,4 +105,5 @@ YGLogger getDefaultLogger() {
   };
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

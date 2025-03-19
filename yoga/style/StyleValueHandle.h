@@ -15,7 +15,8 @@
 #include <yoga/style/SmallValueBuffer.h>
 #include <yoga/style/StyleLength.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 #pragma pack(push)
 #pragma pack(1)
@@ -31,7 +32,7 @@ namespace facebook::yoga {
  */
 class StyleValueHandle {
  public:
-  static constexpr StyleValueHandle ofAuto() {
+  static inline StyleValueHandle ofAuto() {
     StyleValueHandle handle;
     handle.setType(Type::Auto);
     return handle;
@@ -52,9 +53,9 @@ class StyleValueHandle {
  private:
   friend class StyleValuePool;
 
-  static constexpr uint16_t kHandleTypeMask = 0b0000'0000'0000'0111;
-  static constexpr uint16_t kHandleIndexedMask = 0b0000'0000'0000'1000;
-  static constexpr uint16_t kHandleValueMask = 0b1111'1111'1111'0000;
+  static constexpr uint16_t kHandleTypeMask    = 0x0007; // 0b0000'0000'0000'0111;
+  static constexpr uint16_t kHandleIndexedMask = 0x0008; // 0b0000'0000'0000'1000;
+  static constexpr uint16_t kHandleValueMask   = 0xFFF0; // 0b1111'1111'1111'0000;
 
   enum class Type : uint8_t {
     Undefined,
@@ -76,7 +77,7 @@ class StyleValueHandle {
     return static_cast<Type>(repr_ & kHandleTypeMask);
   }
 
-  constexpr void setType(Type handleType) {
+  inline void setType(Type handleType) {
     repr_ &= (~kHandleTypeMask);
     repr_ |= static_cast<uint8_t>(handleType);
   }
@@ -85,7 +86,7 @@ class StyleValueHandle {
     return repr_ >> 4;
   }
 
-  constexpr void setValue(uint16_t value) {
+  inline void setValue(uint16_t value) {
     repr_ &= (~kHandleValueMask);
     repr_ |= (value << 4);
   }
@@ -94,7 +95,7 @@ class StyleValueHandle {
     return (repr_ & kHandleIndexedMask) != 0;
   }
 
-  constexpr void setValueIsIndexed() {
+  inline void setValueIsIndexed() {
     repr_ |= kHandleIndexedMask;
   }
 
@@ -103,4 +104,5 @@ class StyleValueHandle {
 
 #pragma pack(pop)
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

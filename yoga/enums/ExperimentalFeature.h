@@ -13,7 +13,8 @@
 #include <yoga/YGEnums.h>
 #include <yoga/enums/YogaEnums.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 enum class ExperimentalFeature : uint8_t {
   WebFlexBasis = YGExperimentalFeatureWebFlexBasis,
@@ -36,4 +37,5 @@ inline const char* toString(ExperimentalFeature e) {
   return YGExperimentalFeatureToString(unscopedEnum(e));
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

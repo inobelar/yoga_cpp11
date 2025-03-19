@@ -10,7 +10,8 @@
 #include <yoga/enums/Unit.h>
 #include <yoga/numeric/FloatOptional.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 /**
  * Style::Length represents a CSS Value which may be one of:
@@ -74,14 +75,13 @@ class StyleLength {
   }
 
   constexpr FloatOptional resolve(float referenceLength) {
-    switch (unit_) {
-      case Unit::Point:
-        return value_;
-      case Unit::Percent:
-        return FloatOptional{value_.unwrap() * referenceLength * 0.01f};
-      default:
-        return FloatOptional{};
-    }
+    return
+      (unit_ == Unit::Point) ?
+        value_
+      : (unit_ == Unit::Percent) ?
+        FloatOptional{value_.unwrap() * referenceLength * 0.01f}
+      :
+        FloatOptional{}; // default
   }
 
   explicit constexpr operator YGValue() const {
@@ -90,6 +90,10 @@ class StyleLength {
 
   constexpr bool operator==(const StyleLength& rhs) const {
     return value_ == rhs.value_ && unit_ == rhs.unit_;
+  }
+
+  constexpr bool operator!=(const StyleLength& rhs) const {
+    return !(*this == rhs);
   }
 
   constexpr bool inexactEquals(const StyleLength& other) const {
@@ -111,4 +115,5 @@ inline bool inexactEquals(const StyleLength& a, const StyleLength& b) {
   return a.inexactEquals(b);
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

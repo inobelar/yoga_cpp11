@@ -15,11 +15,21 @@
 #include <yoga/node/Node.h>
 #include <yoga/numeric/Comparison.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 Node::Node() : Node{&Config::getDefault()} {}
 
-Node::Node(const yoga::Config* config) : config_{config} {
+Node::Node(const yoga::Config* config)
+  // Member bit-fields initialization
+  : hasNewLayout_{true}
+  , isReferenceBaseline_{false}
+  , isDirty_{true}
+  , alwaysFormsContainingBlock_{false}
+  , nodeType_{NodeType::Default}
+
+  , config_{config}
+{
   yoga::assertFatal(
       config != nullptr, "Attempting to construct Node with null config");
 
@@ -72,8 +82,9 @@ YGSize Node::measure(
         size.width,
         size.height);
     return {
-        .width = maxOrDefined(0.0f, size.width),
-        .height = maxOrDefined(0.0f, size.height)};
+        maxOrDefined(0.0f, size.width), // width
+        maxOrDefined(0.0f, size.height) // height
+    };
   }
 
   return size;
@@ -440,4 +451,5 @@ void Node::reset() {
   *this = Node{getConfig()};
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

@@ -9,7 +9,8 @@
 #include <yoga/algorithm/PixelGrid.h>
 #include <yoga/numeric/Comparison.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 static inline bool sizeIsExactAndMatchesOldMeasuredSize(
     SizingMode sizeMode,
@@ -118,4 +119,5 @@ bool canUseCachedMeasurement(
   return widthIsCompatible && heightIsCompatible;
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

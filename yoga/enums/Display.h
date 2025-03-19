@@ -13,7 +13,8 @@
 #include <yoga/YGEnums.h>
 #include <yoga/enums/YogaEnums.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 enum class Display : uint8_t {
   Flex = YGDisplayFlex,
@@ -38,4 +39,5 @@ inline const char* toString(Display e) {
   return YGDisplayToString(unscopedEnum(e));
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

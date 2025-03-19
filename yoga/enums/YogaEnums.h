@@ -11,49 +11,55 @@
 #include <iterator>
 #include <type_traits>
 
-namespace facebook::yoga {
+#include <yoga/compat/bit_width.h>
+
+namespace facebook {
+namespace yoga {
 
 /**
  * Concept for any enum/enum class
  */
 template <typename EnumT>
-concept Enumeration = std::is_enum_v<EnumT>;
+constexpr bool IsEnumeration() { return std::is_enum<EnumT>::value; }
 
 /**
  * Count of ordinals in a Yoga enum which is sequential
  */
-template <Enumeration EnumT>
+template </*Enumeration*/ typename EnumT>
 constexpr int32_t ordinalCount();
 
 /**
  * Concept for a yoga enum which is sequential
  */
 template <typename EnumT>
-concept HasOrdinality = (ordinalCount<EnumT>() > 0);
+constexpr bool HasOrdinality() { return ordinalCount<EnumT>() > 0; }
+
 
 /**
  * Count of bits needed to represent every ordinal
  */
-template <HasOrdinality EnumT>
+template <typename EnumT>
 constexpr int32_t bitCount() {
-  return std::bit_width(
-      static_cast<std::underlying_type_t<EnumT>>(ordinalCount<EnumT>() - 1));
+  static_assert(HasOrdinality<EnumT>() == true, "EnumT not has ordinality");
+  return compat::bit_width(
+      static_cast<typename std::underlying_type<EnumT>::type>(ordinalCount<EnumT>() - 1));
 }
 
 /**
  * Polyfill of C++ 23 to_underlying()
  * https://en.cppreference.com/w/cpp/utility/to_underlying
  */
-constexpr auto to_underlying(Enumeration auto e) noexcept {
-  return static_cast<std::underlying_type_t<decltype(e)>>(e);
+template <typename EnumT>
+constexpr
+typename std::underlying_type<EnumT>::type
+to_underlying(EnumT e) noexcept {
+  static_assert(IsEnumeration<EnumT>() == true, "EnumT must be an enum");
+  return static_cast<typename std::underlying_type<EnumT>::type>(e);
 }
 
-/**
- * Convenience function to iterate through every value in a Yoga enum as part of
- * a range-based for loop.
- */
-template <HasOrdinality EnumT>
-auto ordinals() {
+namespace details {
+
+  template <typename EnumT>
   struct Iterator {
     EnumT e{};
 
@@ -66,20 +72,34 @@ auto ordinals() {
       return *this;
     }
 
-    bool operator==(const Iterator& other) const = default;
-    bool operator!=(const Iterator& other) const = default;
+    bool operator==(const Iterator& other) const { return this->e == other.e; }
+    bool operator!=(const Iterator& other) const { return this->e != other.e; }
   };
 
+  template <typename EnumT>
   struct Range {
-    Iterator begin() const {
-      return Iterator{};
+    using EnumIterator = Iterator<EnumT>;
+
+    EnumIterator begin() const {
+      return EnumIterator{};
     }
-    Iterator end() const {
-      return Iterator{static_cast<EnumT>(ordinalCount<EnumT>())};
+    EnumIterator end() const {
+      return EnumIterator{static_cast<EnumT>(ordinalCount<EnumT>())};
     }
   };
 
-  return Range{};
+} // namespace details
+
+/**
+ * Convenience function to iterate through every value in a Yoga enum as part of
+ * a range-based for loop.
+ */
+template <typename EnumT>
+details::Range<EnumT> ordinals()
+{
+  static_assert(HasOrdinality<EnumT>() == true, "EnumT not has ordinality");
+  return details::Range<EnumT>{};
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

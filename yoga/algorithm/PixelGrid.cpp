@@ -10,7 +10,8 @@
 #include <yoga/algorithm/PixelGrid.h>
 #include <yoga/numeric/Comparison.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 float roundValueToPixelGrid(
     const double value,
@@ -132,4 +133,5 @@ void roundLayoutResultsToPixelGrid(
   }
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

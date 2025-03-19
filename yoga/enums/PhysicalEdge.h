@@ -9,7 +9,8 @@
 
 #include <yoga/enums/Edge.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 enum class PhysicalEdge : uint32_t {
   Left = yoga::to_underlying(Edge::Left),
@@ -18,4 +19,5 @@ enum class PhysicalEdge : uint32_t {
   Bottom = yoga::to_underlying(Edge::Bottom),
 };
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

@@ -31,7 +31,8 @@
 #include <yoga/numeric/Comparison.h>
 #include <yoga/numeric/FloatOptional.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 std::atomic<uint32_t> gCurrentGenerationCount(0);
 
@@ -2425,4 +2426,5 @@ void calculateLayout(
   Event::publish<Event::LayoutPassEnd>(node, {&markerData});
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

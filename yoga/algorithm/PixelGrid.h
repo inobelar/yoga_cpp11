@@ -10,7 +10,8 @@
 #include <yoga/Yoga.h>
 #include <yoga/node/Node.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 // Round a point value to the nearest physical pixel based on DPI
 // (pointScaleFactor)
@@ -26,4 +27,5 @@ void roundLayoutResultsToPixelGrid(
     double absoluteLeft,
     double absoluteTop);
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

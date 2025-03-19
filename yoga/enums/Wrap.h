@@ -13,7 +13,8 @@
 #include <yoga/YGEnums.h>
 #include <yoga/enums/YogaEnums.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 enum class Wrap : uint8_t {
   NoWrap = YGWrapNoWrap,
@@ -38,4 +39,5 @@ inline const char* toString(Wrap e) {
   return YGWrapToString(unscopedEnum(e));
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

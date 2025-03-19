@@ -17,7 +17,8 @@
 // Tag struct used to form the opaque YGConfigRef for the public C API
 struct YGConfig {};
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 class Config;
 class Node;
@@ -32,7 +33,12 @@ bool configUpdateInvalidatesLayout(
 
 class YG_EXPORT Config : public ::YGConfig {
  public:
-  explicit Config(YGLogger logger) : logger_{logger} {}
+  explicit Config(YGLogger logger)
+    : logger_{logger}
+
+    // Member bit-field initialization
+    , useWebDefaults_{false}
+  {}
 
   void setUseWebDefaults(bool useWebDefaults);
   bool useWebDefaults() const;
@@ -72,7 +78,7 @@ class YG_EXPORT Config : public ::YGConfig {
   YGCloneNodeFunc cloneNodeCallback_{nullptr};
   YGLogger logger_{};
 
-  bool useWebDefaults_ : 1 = false;
+  bool useWebDefaults_ : 1; // Default: false
 
   uint32_t version_ = 0;
   ExperimentalFeatureSet experimentalFeatures_{};
@@ -89,4 +95,5 @@ inline const Config* resolveRef(const YGConfigConstRef ref) {
   return static_cast<const Config*>(ref);
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

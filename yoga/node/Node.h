@@ -28,7 +28,8 @@
 // Tag struct used to form the opaque YGNodeRef for the public C API
 struct YGNode {};
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 class YG_EXPORT Node : public ::YGNode {
  public:
@@ -306,11 +307,11 @@ class YG_EXPORT Node : public ::YGNode {
     style_.setAlignContent(Align::Stretch);
   }
 
-  bool hasNewLayout_ : 1 = true;
-  bool isReferenceBaseline_ : 1 = false;
-  bool isDirty_ : 1 = true;
-  bool alwaysFormsContainingBlock_ : 1 = false;
-  NodeType nodeType_ : bitCount<NodeType>() = NodeType::Default;
+  bool hasNewLayout_ : 1; // Default: true
+  bool isReferenceBaseline_ : 1; // Default: false
+  bool isDirty_ : 1; // Default: true
+  bool alwaysFormsContainingBlock_ : 1; // Default: false
+  NodeType nodeType_ : bitCount<NodeType>(); // Default: NodeType::Default
   void* context_ = nullptr;
   YGMeasureFunc measureFunc_ = nullptr;
   YGBaselineFunc baselineFunc_ = nullptr;
@@ -334,4 +335,5 @@ inline const Node* resolveRef(const YGNodeConstRef ref) {
   return static_cast<const Node*>(ref);
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

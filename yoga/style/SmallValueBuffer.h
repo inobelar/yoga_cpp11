@@ -14,7 +14,10 @@
 #include <memory>
 #include <vector>
 
-namespace facebook::yoga {
+#include <yoga/compat/make_unique.h>
+
+namespace facebook {
+namespace yoga {
 
 // Container which allows storing 32 or 64 bit integer values, whose index may
 // never change. Values are first stored in a fixed buffer of `BufferSize`
@@ -38,7 +41,7 @@ class SmallValueBuffer {
     }
 
     if (overflow_ == nullptr) {
-      overflow_ = std::make_unique<SmallValueBuffer::Overflow>();
+      overflow_ = compat::make_unique<SmallValueBuffer::Overflow>();
     }
 
     overflow_->buffer_.push_back(value);
@@ -111,7 +114,7 @@ class SmallValueBuffer {
     count_ = other.count_;
     buffer_ = other.buffer_;
     wideElements_ = other.wideElements_;
-    overflow_ = other.overflow_ ? std::make_unique<Overflow>(*other.overflow_)
+    overflow_ = other.overflow_ ? compat::make_unique<Overflow>(*other.overflow_)
                                 : nullptr;
     return *this;
   }
@@ -130,4 +133,5 @@ class SmallValueBuffer {
   std::unique_ptr<Overflow> overflow_;
 };
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

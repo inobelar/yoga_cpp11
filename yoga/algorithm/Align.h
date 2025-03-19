@@ -12,7 +12,8 @@
 #include <yoga/algorithm/FlexDirection.h>
 #include <yoga/node/Node.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 inline Align resolveChildAlignment(
     const yoga::Node* node,
@@ -31,20 +32,17 @@ inline Align resolveChildAlignment(
  * https://www.w3.org/TR/css-align-3/#distribution-values
  */
 constexpr Align fallbackAlignment(Align align) {
-  switch (align) {
-      // Fallback to flex-start
-    case Align::SpaceBetween:
-    case Align::Stretch:
-      return Align::FlexStart;
+  return
+    // Fallback to flex-start
+    ( (align == Align::SpaceBetween) || (align == Align::Stretch) ) ?
+      Align::FlexStart
 
     // Fallback to safe center. TODO (T208209388): This should be aligned to
     // Start instead of FlexStart (for row-reverse containers)
-    case Align::SpaceAround:
-    case Align::SpaceEvenly:
-      return Align::FlexStart;
-    default:
-      return align;
-  }
+    : ( (align == Align::SpaceAround) || (align == Align::SpaceEvenly) ) ?
+      Align::FlexStart
+    :
+      align; // default
 }
 
 /**
@@ -52,21 +50,20 @@ constexpr Align fallbackAlignment(Align align) {
  * https://www.w3.org/TR/css-align-3/#distribution-values
  */
 constexpr Justify fallbackAlignment(Justify align) {
-  switch (align) {
-      // Fallback to flex-start
-    case Justify::SpaceBetween:
+  return
+    // Fallback to flex-start
+    (align == Justify::SpaceBetween) ?
       // TODO: Support `justify-content: stretch`
       // case Justify::Stretch:
-      return Justify::FlexStart;
+      Justify::FlexStart
 
     // Fallback to safe center. TODO (T208209388): This should be aligned to
     // Start instead of FlexStart (for row-reverse containers)
-    case Justify::SpaceAround:
-    case Justify::SpaceEvenly:
-      return Justify::FlexStart;
-    default:
-      return align;
-  }
+    : ( (align == Justify::SpaceAround) || (align == Justify::SpaceEvenly) ) ?
+      Justify::FlexStart
+    :
+      align; // default
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

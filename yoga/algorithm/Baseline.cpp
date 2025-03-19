@@ -12,7 +12,8 @@
 #include <yoga/debug/AssertFatal.h>
 #include <yoga/event/event.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 float calculateBaseline(const yoga::Node* node) {
   if (node->hasBaselineFunc()) {
@@ -75,4 +76,5 @@ bool isBaselineLayout(const yoga::Node* node) {
   return false;
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

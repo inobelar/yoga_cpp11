@@ -13,7 +13,8 @@
 #include <yoga/YGEnums.h>
 #include <yoga/enums/YogaEnums.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 enum class FlexDirection : uint8_t {
   Column = YGFlexDirectionColumn,
@@ -39,4 +40,5 @@ inline const char* toString(FlexDirection e) {
   return YGFlexDirectionToString(unscopedEnum(e));
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

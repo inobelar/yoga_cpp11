@@ -16,7 +16,10 @@
 #include <yoga/style/StyleSizeLength.h>
 #include <yoga/style/StyleValueHandle.h>
 
-namespace facebook::yoga {
+#include <yoga/compat/bit_cast.h>
+
+namespace facebook {
+namespace yoga {
 
 /**
  * StyleValuePool allows compact storage for a sparse collection of assigned
@@ -75,7 +78,7 @@ class StyleValuePool {
           handle.type() == StyleValueHandle::Type::Point ||
           handle.type() == StyleValueHandle::Type::Percent);
       float value = (handle.isValueIndexed())
-          ? std::bit_cast<float>(buffer_.get32(handle.value()))
+          ? compat::bit_cast<float>(buffer_.get32(handle.value()))
           : unpackInlineInteger(handle.value());
 
       return handle.type() == StyleValueHandle::Type::Point
@@ -100,7 +103,7 @@ class StyleValuePool {
           handle.type() == StyleValueHandle::Type::Point ||
           handle.type() == StyleValueHandle::Type::Percent);
       float value = (handle.isValueIndexed())
-          ? std::bit_cast<float>(buffer_.get32(handle.value()))
+          ? compat::bit_cast<float>(buffer_.get32(handle.value()))
           : unpackInlineInteger(handle.value());
 
       return handle.type() == StyleValueHandle::Type::Point
@@ -115,7 +118,7 @@ class StyleValuePool {
     } else {
       assert(handle.type() == StyleValueHandle::Type::Number);
       float value = (handle.isValueIndexed())
-          ? std::bit_cast<float>(buffer_.get32(handle.value()))
+          ? compat::bit_cast<float>(buffer_.get32(handle.value()))
           : unpackInlineInteger(handle.value());
       return FloatOptional{value};
     }
@@ -130,12 +133,12 @@ class StyleValuePool {
 
     if (handle.isValueIndexed()) {
       auto newIndex =
-          buffer_.replace(handle.value(), std::bit_cast<uint32_t>(value));
+          buffer_.replace(handle.value(), compat::bit_cast<uint32_t>(value));
       handle.setValue(newIndex);
     } else if (isIntegerPackable(value)) {
       handle.setValue(packInlineInteger(value));
     } else {
-      auto newIndex = buffer_.push(std::bit_cast<uint32_t>(value));
+      auto newIndex = buffer_.push(compat::bit_cast<uint32_t>(value));
       handle.setValue(newIndex);
       handle.setValueIsIndexed();
     }
@@ -155,7 +158,7 @@ class StyleValuePool {
     }
   }
 
-  static constexpr bool isIntegerPackable(float f) {
+  static inline bool isIntegerPackable(float f) {
     constexpr uint16_t kMaxInlineAbsValue = (1 << 11) - 1;
 
     auto i = static_cast<int32_t>(f);
@@ -163,16 +166,16 @@ class StyleValuePool {
         i <= +kMaxInlineAbsValue;
   }
 
-  static constexpr uint16_t packInlineInteger(float value) {
+  static inline uint16_t packInlineInteger(float value) {
     uint16_t isNegative = value < 0 ? 1 : 0;
     return static_cast<uint16_t>(
         (isNegative << 11) |
         (static_cast<int32_t>(value) * (isNegative != 0u ? -1 : 1)));
   }
 
-  static constexpr float unpackInlineInteger(uint16_t value) {
-    constexpr uint16_t kValueSignMask = 0b0000'1000'0000'0000;
-    constexpr uint16_t kValueMagnitudeMask = 0b0000'0111'1111'1111;
+  static inline float unpackInlineInteger(uint16_t value) {
+    constexpr uint16_t kValueSignMask      = 0x0800; // 0b0000'1000'0000'0000;
+    constexpr uint16_t kValueMagnitudeMask = 0x07FF; // 0b0000'0111'1111'1111;
     const bool isNegative = (value & kValueSignMask) != 0;
     return static_cast<float>(
         (value & kValueMagnitudeMask) * (isNegative ? -1 : 1));
@@ -181,4 +184,5 @@ class StyleValuePool {
   SmallValueBuffer<4> buffer_;
 };
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

@@ -13,7 +13,8 @@
 #include <yoga/YGEnums.h>
 #include <yoga/enums/YogaEnums.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 enum class Overflow : uint8_t {
   Visible = YGOverflowVisible,
@@ -38,4 +39,5 @@ inline const char* toString(Overflow e) {
   return YGOverflowToString(unscopedEnum(e));
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

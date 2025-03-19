@@ -9,7 +9,8 @@
 #include <atomic>
 #include <memory>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 const char* LayoutPassReasonToString(const LayoutPassReason value) {
   switch (value) {
@@ -84,4 +85,5 @@ void Event::publish(
   }
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

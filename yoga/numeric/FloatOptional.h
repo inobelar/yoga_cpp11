@@ -10,7 +10,8 @@
 #include <yoga/numeric/Comparison.h>
 #include <limits>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 struct FloatOptional {
  private:
@@ -90,4 +91,5 @@ inline bool inexactEquals(FloatOptional lhs, FloatOptional rhs) {
   return yoga::inexactEquals(lhs.unwrap(), rhs.unwrap());
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

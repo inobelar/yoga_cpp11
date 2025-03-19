@@ -12,7 +12,8 @@
 #include <yoga/Yoga.h>
 #include <yoga/node/Node.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 struct FlexLineRunningLayout {
   // Total flex grow factors of flex items which are to be laid in the current
@@ -35,6 +36,20 @@ struct FlexLineRunningLayout {
   // The size of the crossDim for the row after considering size, padding,
   // margin and border of flex items. Used for calculating containers crossSize.
   float crossDim{0.0f};
+
+  FlexLineRunningLayout(
+    float totalFlexGrowFactors_ = 0.0f,
+    float totalFlexShrinkScaledFactors_ = 0.0f,
+    float remainingFreeSpace_ = 0.0f,
+    float mainDim_ = 0.0f,
+    float crossDim_ = 0.0f
+  )
+    : totalFlexGrowFactors(totalFlexGrowFactors_)
+    , totalFlexShrinkScaledFactors(totalFlexShrinkScaledFactors_)
+    , remainingFreeSpace(remainingFreeSpace_)
+    , mainDim(mainDim_)
+    , crossDim(crossDim_)
+  {}
 };
 
 struct FlexLine {
@@ -54,6 +69,18 @@ struct FlexLine {
 
   // Layout information about the line computed in steps after line-breaking
   FlexLineRunningLayout layout{};
+
+  FlexLine(
+    std::vector<yoga::Node*>&& itemsInFlow_,
+    float sizeConsumed_,
+    size_t numberOfAutoMargins_,
+    const FlexLineRunningLayout& layout_
+  )
+    : itemsInFlow( std::move(itemsInFlow_) )
+    , sizeConsumed(sizeConsumed_)
+    , numberOfAutoMargins(numberOfAutoMargins_)
+    , layout(layout_)
+  {}
 };
 
 // Calculates where a line starting at a given index should break, returning
@@ -72,4 +99,5 @@ FlexLine calculateFlexLine(
     Node::LayoutableChildren::Iterator& iterator,
     size_t lineCount);
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

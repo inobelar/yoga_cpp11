@@ -11,7 +11,8 @@
 #include <yoga/algorithm/CalculateLayout.h>
 #include <yoga/algorithm/TrailingPosition.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 static inline void setFlexStartLayoutPosition(
     const yoga::Node* const parent,
@@ -560,4 +561,6 @@ bool layoutAbsoluteDescendants(
   }
   return hasNewLayout;
 }
-} // namespace facebook::yoga
+
+} // namespace yoga
+} // namespace facebook

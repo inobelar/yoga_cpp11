@@ -12,7 +12,8 @@
 #include <yoga/event/event.h>
 #include <yoga/node/Node.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 void calculateLayout(
     yoga::Node* node,
@@ -35,4 +36,5 @@ bool calculateLayoutInternal(
     uint32_t depth,
     uint32_t generationCount);
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

@@ -9,7 +9,8 @@
 #include <yoga/debug/Log.h>
 #include <yoga/node/Node.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 bool configUpdateInvalidatesLayout(
     const Config& oldConfig,
@@ -132,4 +133,5 @@ YGNodeRef Config::cloneNode(
   return config;
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

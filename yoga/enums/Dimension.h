@@ -13,7 +13,8 @@
 #include <yoga/YGEnums.h>
 #include <yoga/enums/YogaEnums.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 enum class Dimension : uint8_t {
   Width = YGDimensionWidth,
@@ -37,4 +38,5 @@ inline const char* toString(Dimension e) {
   return YGDimensionToString(unscopedEnum(e));
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

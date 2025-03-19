@@ -1,10 +1,29 @@
-# Yoga [![CocoaPods](https://img.shields.io/cocoapods/v/Yoga.svg)](http://cocoapods.org/pods/Yoga) [![npm](https://img.shields.io/npm/v/yoga-layout.svg)](https://www.npmjs.com/package/yoga-layout) [![Maven Central](https://img.shields.io/maven-central/v/com.facebook.yoga/yoga)](https://search.maven.org/artifact/com.facebook.yoga/yoga) ![SPM](https://img.shields.io/badge/SPM-Supported-blue.svg)
+# Yoga (C++11 Backport)
 
 Yoga is an embeddable and performant flexbox layout engine with bindings for multiple languages.
 
+This repository provides a backport of [Yoga](https://github.com/facebook/yoga)
+from `C++20` to `C++11`, enabling broader compatibility with older compilers and
+outdated environments.
+
+By maintaining the core functionality of Yoga while relying on `C++11` features,
+this project aims to make the library accessible to a wider range of developers
+and systems, especially those that do not support the latest compilers and C++
+standards.
+
+In our imperfect world, the number of such systems is greater than it seems, and
+such a useful library as Yoga should be distributed as widely as possible.
+
+Current state: based on [6455a84](https://github.com/facebook/yoga/commit/6455a848a76f433bdb48b2640b7f4644774c76fd) commit (Mar 11, 2025)
+
+> [NOTE]
+> The main implementation targets `C++11`, but to build the unit tests
+> (which rely on [GoogleTest](https://github.com/google/googletest)) needed
+> `C++17` support.
+
 ## Building
 
-Yoga's main implementation targets C++ 20 with accompanying build logic in CMake. A wrapper is provided to build the main library and run unit tests.
+To build the main library and run unit tests provided a wrapper:
 
 ```sh
 ./unit_tests <Debug|Release>

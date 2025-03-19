@@ -33,7 +33,10 @@
 #include <yoga/style/StyleSizeLength.h>
 #include <yoga/style/StyleValuePool.h>
 
-namespace facebook::yoga {
+#include <yoga/compat/equal.h>
+
+namespace facebook {
+namespace yoga {
 
 class YG_EXPORT Style {
  public:
@@ -43,6 +46,21 @@ class YG_EXPORT Style {
   static constexpr float DefaultFlexGrow = 0.0f;
   static constexpr float DefaultFlexShrink = 0.0f;
   static constexpr float WebDefaultFlexShrink = 1.0f;
+
+  Style()
+    // Member bit-fields initialization
+    : direction_{Direction::Inherit}
+    , flexDirection_{FlexDirection::Column}
+    , justifyContent_{Justify::FlexStart}
+    , alignContent_{Align::FlexStart}
+    , alignItems_{Align::Stretch}
+    , alignSelf_{Align::Auto}
+    , positionType_{PositionType::Relative}
+    , flexWrap_{Wrap::NoWrap}
+    , overflow_{Overflow::Visible}
+    , display_{Display::Flex}
+    , boxSizing_{BoxSizing::BorderBox}
+  {}
 
   Direction direction() const {
     return direction_;
@@ -581,12 +599,12 @@ class YG_EXPORT Style {
       const StyleValuePool& lhsPool,
       const std::array<StyleValueHandle, N>& rhs,
       const StyleValuePool& rhsPool) {
-    return std::equal(
+    return compat::equal(
         lhs.begin(),
         lhs.end(),
         rhs.begin(),
         rhs.end(),
-        [&](const auto& lhs, const auto& rhs) {
+        [&](const StyleValueHandle& lhs, const StyleValueHandle& rhs) {
           return lengthsEqual(lhs, lhsPool, rhs, rhsPool);
         });
   }
@@ -723,19 +741,19 @@ class YG_EXPORT Style {
     fatalWithMessage("Invalid physical edge");
   }
 
-  Direction direction_ : bitCount<Direction>() = Direction::Inherit;
+  Direction direction_ : bitCount<Direction>(); // Default: Direction::Inherit
   FlexDirection flexDirection_
-      : bitCount<FlexDirection>() = FlexDirection::Column;
-  Justify justifyContent_ : bitCount<Justify>() = Justify::FlexStart;
-  Align alignContent_ : bitCount<Align>() = Align::FlexStart;
-  Align alignItems_ : bitCount<Align>() = Align::Stretch;
-  Align alignSelf_ : bitCount<Align>() = Align::Auto;
+      : bitCount<FlexDirection>(); // Default: FlexDirection::Column
+  Justify justifyContent_ : bitCount<Justify>(); // Default: Justify::FlexStart
+  Align alignContent_ : bitCount<Align>(); // Default: Align::FlexStart
+  Align alignItems_ : bitCount<Align>(); // Default: Align::Stretch
+  Align alignSelf_ : bitCount<Align>(); // Default: Align::Auto
   PositionType positionType_
-      : bitCount<PositionType>() = PositionType::Relative;
-  Wrap flexWrap_ : bitCount<Wrap>() = Wrap::NoWrap;
-  Overflow overflow_ : bitCount<Overflow>() = Overflow::Visible;
-  Display display_ : bitCount<Display>() = Display::Flex;
-  BoxSizing boxSizing_ : bitCount<BoxSizing>() = BoxSizing::BorderBox;
+      : bitCount<PositionType>(); // Default: PositionType::Relative
+  Wrap flexWrap_ : bitCount<Wrap>(); // Default: Wrap::NoWrap
+  Overflow overflow_ : bitCount<Overflow>(); // Default: Overflow::Visible
+  Display display_ : bitCount<Display>(); // Default: Display::Flex
+  BoxSizing boxSizing_ : bitCount<BoxSizing>(); // Default: BoxSizing::BorderBox
 
   StyleValueHandle flex_{};
   StyleValueHandle flexGrow_{};
@@ -756,4 +774,5 @@ class YG_EXPORT Style {
   StyleValuePool pool_;
 };
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

@@ -13,7 +13,8 @@
 #include <yoga/YGEnums.h>
 #include <yoga/enums/YogaEnums.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 enum class Edge : uint8_t {
   Left = YGEdgeLeft,
@@ -44,4 +45,5 @@ inline const char* toString(Edge e) {
   return YGEdgeToString(unscopedEnum(e));
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

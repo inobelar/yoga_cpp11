@@ -13,7 +13,8 @@
 #include <yoga/YGEnums.h>
 #include <yoga/enums/YogaEnums.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 enum class NodeType : uint8_t {
   Default = YGNodeTypeDefault,
@@ -37,4 +38,5 @@ inline const char* toString(NodeType e) {
   return YGNodeTypeToString(unscopedEnum(e));
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

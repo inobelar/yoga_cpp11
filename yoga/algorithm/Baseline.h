@@ -10,7 +10,8 @@
 #include <yoga/Yoga.h>
 #include <yoga/node/Node.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 // Calculate baseline represented as an offset from the top edge of the node.
 float calculateBaseline(const yoga::Node* node);
@@ -18,4 +19,5 @@ float calculateBaseline(const yoga::Node* node);
 // Whether any of the children of this node participate in baseline alignment
 bool isBaselineLayout(const yoga::Node* node);
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

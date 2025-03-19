@@ -13,7 +13,8 @@
 #include <yoga/YGEnums.h>
 #include <yoga/enums/YogaEnums.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 enum class Justify : uint8_t {
   FlexStart = YGJustifyFlexStart,
@@ -41,4 +42,5 @@ inline const char* toString(Justify e) {
   return YGJustifyToString(unscopedEnum(e));
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

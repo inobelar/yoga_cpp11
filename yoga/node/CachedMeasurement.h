@@ -14,7 +14,8 @@
 #include <yoga/algorithm/SizingMode.h>
 #include <yoga/numeric/Comparison.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 struct CachedMeasurement {
   float availableWidth{-1};
@@ -50,4 +51,5 @@ struct CachedMeasurement {
   }
 };
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

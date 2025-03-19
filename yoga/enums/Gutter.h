@@ -13,7 +13,8 @@
 #include <yoga/YGEnums.h>
 #include <yoga/enums/YogaEnums.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 enum class Gutter : uint8_t {
   Column = YGGutterColumn,
@@ -38,4 +39,5 @@ inline const char* toString(Gutter e) {
   return YGGutterToString(unscopedEnum(e));
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

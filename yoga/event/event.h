@@ -14,7 +14,8 @@
 #include <functional>
 #include <vector>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 enum struct LayoutType : int {
   kLayout = 0,
@@ -127,4 +128,5 @@ struct Event::TypedData<Event::NodeLayout> {
   LayoutType layoutType;
 };
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

@@ -14,7 +14,11 @@ using namespace facebook::yoga;
 
 namespace {
 
-template <auto GetterT, auto SetterT, typename ValueT>
+template <
+  typename ValueT,
+  ValueT (Style::*GetterT)() const,
+  void (Style::*SetterT)(ValueT)
+>
 void updateStyle(YGNodeRef node, ValueT value) {
   auto& style = resolveRef(node)->style();
   if ((style.*GetterT)() != value) {
@@ -23,7 +27,12 @@ void updateStyle(YGNodeRef node, ValueT value) {
   }
 }
 
-template <auto GetterT, auto SetterT, typename IdxT, typename ValueT>
+template <
+  typename IdxT,
+  typename ValueT,
+  ValueT (Style::*GetterT)(IdxT) const,
+  void (Style::*SetterT)(IdxT, ValueT)
+>
 void updateStyle(YGNodeRef node, IdxT idx, ValueT value) {
   auto& style = resolveRef(node)->style();
   if ((style.*GetterT)(idx) != value) {
@@ -45,7 +54,7 @@ void YGNodeCopyStyle(YGNodeRef dstNode, YGNodeConstRef srcNode) {
 }
 
 void YGNodeStyleSetDirection(const YGNodeRef node, const YGDirection value) {
-  updateStyle<&Style::direction, &Style::setDirection>(node, scopedEnum(value));
+  updateStyle<Direction, &Style::direction, &Style::setDirection>(node, scopedEnum(value));
 }
 
 YGDirection YGNodeStyleGetDirection(const YGNodeConstRef node) {
@@ -55,7 +64,7 @@ YGDirection YGNodeStyleGetDirection(const YGNodeConstRef node) {
 void YGNodeStyleSetFlexDirection(
     const YGNodeRef node,
     const YGFlexDirection flexDirection) {
-  updateStyle<&Style::flexDirection, &Style::setFlexDirection>(
+  updateStyle<FlexDirection, &Style::flexDirection, &Style::setFlexDirection>(
       node, scopedEnum(flexDirection));
 }
 
@@ -66,7 +75,7 @@ YGFlexDirection YGNodeStyleGetFlexDirection(const YGNodeConstRef node) {
 void YGNodeStyleSetJustifyContent(
     const YGNodeRef node,
     const YGJustify justifyContent) {
-  updateStyle<&Style::justifyContent, &Style::setJustifyContent>(
+  updateStyle<Justify, &Style::justifyContent, &Style::setJustifyContent>(
       node, scopedEnum(justifyContent));
 }
 
@@ -77,7 +86,7 @@ YGJustify YGNodeStyleGetJustifyContent(const YGNodeConstRef node) {
 void YGNodeStyleSetAlignContent(
     const YGNodeRef node,
     const YGAlign alignContent) {
-  updateStyle<&Style::alignContent, &Style::setAlignContent>(
+  updateStyle<Align, &Style::alignContent, &Style::setAlignContent>(
       node, scopedEnum(alignContent));
 }
 
@@ -86,7 +95,7 @@ YGAlign YGNodeStyleGetAlignContent(const YGNodeConstRef node) {
 }
 
 void YGNodeStyleSetAlignItems(const YGNodeRef node, const YGAlign alignItems) {
-  updateStyle<&Style::alignItems, &Style::setAlignItems>(
+  updateStyle<Align, &Style::alignItems, &Style::setAlignItems>(
       node, scopedEnum(alignItems));
 }
 
@@ -95,7 +104,7 @@ YGAlign YGNodeStyleGetAlignItems(const YGNodeConstRef node) {
 }
 
 void YGNodeStyleSetAlignSelf(const YGNodeRef node, const YGAlign alignSelf) {
-  updateStyle<&Style::alignSelf, &Style::setAlignSelf>(
+  updateStyle<Align, &Style::alignSelf, &Style::setAlignSelf>(
       node, scopedEnum(alignSelf));
 }
 
@@ -106,7 +115,7 @@ YGAlign YGNodeStyleGetAlignSelf(const YGNodeConstRef node) {
 void YGNodeStyleSetPositionType(
     const YGNodeRef node,
     const YGPositionType positionType) {
-  updateStyle<&Style::positionType, &Style::setPositionType>(
+  updateStyle<PositionType, &Style::positionType, &Style::setPositionType>(
       node, scopedEnum(positionType));
 }
 
@@ -115,7 +124,7 @@ YGPositionType YGNodeStyleGetPositionType(const YGNodeConstRef node) {
 }
 
 void YGNodeStyleSetFlexWrap(const YGNodeRef node, const YGWrap flexWrap) {
-  updateStyle<&Style::flexWrap, &Style::setFlexWrap>(
+  updateStyle<Wrap, &Style::flexWrap, &Style::setFlexWrap>(
       node, scopedEnum(flexWrap));
 }
 
@@ -124,7 +133,7 @@ YGWrap YGNodeStyleGetFlexWrap(const YGNodeConstRef node) {
 }
 
 void YGNodeStyleSetOverflow(const YGNodeRef node, const YGOverflow overflow) {
-  updateStyle<&Style::overflow, &Style::setOverflow>(
+  updateStyle<Overflow, &Style::overflow, &Style::setOverflow>(
       node, scopedEnum(overflow));
 }
 
@@ -133,7 +142,7 @@ YGOverflow YGNodeStyleGetOverflow(const YGNodeConstRef node) {
 }
 
 void YGNodeStyleSetDisplay(const YGNodeRef node, const YGDisplay display) {
-  updateStyle<&Style::display, &Style::setDisplay>(node, scopedEnum(display));
+  updateStyle<Display, &Style::display, &Style::setDisplay>(node, scopedEnum(display));
 }
 
 YGDisplay YGNodeStyleGetDisplay(const YGNodeConstRef node) {
@@ -141,7 +150,7 @@ YGDisplay YGNodeStyleGetDisplay(const YGNodeConstRef node) {
 }
 
 void YGNodeStyleSetFlex(const YGNodeRef node, const float flex) {
-  updateStyle<&Style::flex, &Style::setFlex>(node, FloatOptional{flex});
+  updateStyle<FloatOptional, &Style::flex, &Style::setFlex>(node, FloatOptional{flex});
 }
 
 float YGNodeStyleGetFlex(const YGNodeConstRef nodeRef) {
@@ -151,7 +160,7 @@ float YGNodeStyleGetFlex(const YGNodeConstRef nodeRef) {
 }
 
 void YGNodeStyleSetFlexGrow(const YGNodeRef node, const float flexGrow) {
-  updateStyle<&Style::flexGrow, &Style::setFlexGrow>(
+  updateStyle<FloatOptional, &Style::flexGrow, &Style::setFlexGrow>(
       node, FloatOptional{flexGrow});
 }
 
@@ -163,7 +172,7 @@ float YGNodeStyleGetFlexGrow(const YGNodeConstRef nodeRef) {
 }
 
 void YGNodeStyleSetFlexShrink(const YGNodeRef node, const float flexShrink) {
-  updateStyle<&Style::flexShrink, &Style::setFlexShrink>(
+  updateStyle<FloatOptional, &Style::flexShrink, &Style::setFlexShrink>(
       node, FloatOptional{flexShrink});
 }
 
@@ -176,34 +185,34 @@ float YGNodeStyleGetFlexShrink(const YGNodeConstRef nodeRef) {
 }
 
 void YGNodeStyleSetFlexBasis(const YGNodeRef node, const float flexBasis) {
-  updateStyle<&Style::flexBasis, &Style::setFlexBasis>(
+  updateStyle<Style::SizeLength, &Style::flexBasis, &Style::setFlexBasis>(
       node, StyleSizeLength::points(flexBasis));
 }
 
 void YGNodeStyleSetFlexBasisPercent(
     const YGNodeRef node,
     const float flexBasisPercent) {
-  updateStyle<&Style::flexBasis, &Style::setFlexBasis>(
+  updateStyle<Style::SizeLength, &Style::flexBasis, &Style::setFlexBasis>(
       node, StyleSizeLength::percent(flexBasisPercent));
 }
 
 void YGNodeStyleSetFlexBasisAuto(const YGNodeRef node) {
-  updateStyle<&Style::flexBasis, &Style::setFlexBasis>(
+  updateStyle<Style::SizeLength, &Style::flexBasis, &Style::setFlexBasis>(
       node, StyleSizeLength::ofAuto());
 }
 
 void YGNodeStyleSetFlexBasisMaxContent(const YGNodeRef node) {
-  updateStyle<&Style::flexBasis, &Style::setFlexBasis>(
+  updateStyle<Style::SizeLength, &Style::flexBasis, &Style::setFlexBasis>(
       node, StyleSizeLength::ofMaxContent());
 }
 
 void YGNodeStyleSetFlexBasisFitContent(const YGNodeRef node) {
-  updateStyle<&Style::flexBasis, &Style::setFlexBasis>(
+  updateStyle<Style::SizeLength, &Style::flexBasis, &Style::setFlexBasis>(
       node, StyleSizeLength::ofFitContent());
 }
 
 void YGNodeStyleSetFlexBasisStretch(const YGNodeRef node) {
-  updateStyle<&Style::flexBasis, &Style::setFlexBasis>(
+  updateStyle<Style::SizeLength, &Style::flexBasis, &Style::setFlexBasis>(
       node, StyleSizeLength::ofStretch());
 }
 
@@ -212,17 +221,17 @@ YGValue YGNodeStyleGetFlexBasis(const YGNodeConstRef node) {
 }
 
 void YGNodeStyleSetPosition(YGNodeRef node, YGEdge edge, float points) {
-  updateStyle<&Style::position, &Style::setPosition>(
+  updateStyle<Edge, Style::Length, &Style::position, &Style::setPosition>(
       node, scopedEnum(edge), StyleLength::points(points));
 }
 
 void YGNodeStyleSetPositionPercent(YGNodeRef node, YGEdge edge, float percent) {
-  updateStyle<&Style::position, &Style::setPosition>(
+  updateStyle<Edge, Style::Length, &Style::position, &Style::setPosition>(
       node, scopedEnum(edge), StyleLength::percent(percent));
 }
 
 void YGNodeStyleSetPositionAuto(YGNodeRef node, YGEdge edge) {
-  updateStyle<&Style::position, &Style::setPosition>(
+  updateStyle<Edge, Style::Length, &Style::position, &Style::setPosition>(
       node, scopedEnum(edge), StyleLength::ofAuto());
 }
 
@@ -231,17 +240,17 @@ YGValue YGNodeStyleGetPosition(YGNodeConstRef node, YGEdge edge) {
 }
 
 void YGNodeStyleSetMargin(YGNodeRef node, YGEdge edge, float points) {
-  updateStyle<&Style::margin, &Style::setMargin>(
+  updateStyle<Edge, Style::Length, &Style::margin, &Style::setMargin>(
       node, scopedEnum(edge), StyleLength::points(points));
 }
 
 void YGNodeStyleSetMarginPercent(YGNodeRef node, YGEdge edge, float percent) {
-  updateStyle<&Style::margin, &Style::setMargin>(
+  updateStyle<Edge, Style::Length, &Style::margin, &Style::setMargin>(
       node, scopedEnum(edge), StyleLength::percent(percent));
 }
 
 void YGNodeStyleSetMarginAuto(YGNodeRef node, YGEdge edge) {
-  updateStyle<&Style::margin, &Style::setMargin>(
+  updateStyle<Edge, Style::Length, &Style::margin, &Style::setMargin>(
       node, scopedEnum(edge), StyleLength::ofAuto());
 }
 
@@ -250,12 +259,12 @@ YGValue YGNodeStyleGetMargin(YGNodeConstRef node, YGEdge edge) {
 }
 
 void YGNodeStyleSetPadding(YGNodeRef node, YGEdge edge, float points) {
-  updateStyle<&Style::padding, &Style::setPadding>(
+  updateStyle<Edge, Style::Length, &Style::padding, &Style::setPadding>(
       node, scopedEnum(edge), StyleLength::points(points));
 }
 
 void YGNodeStyleSetPaddingPercent(YGNodeRef node, YGEdge edge, float percent) {
-  updateStyle<&Style::padding, &Style::setPadding>(
+  updateStyle<Edge, Style::Length, &Style::padding, &Style::setPadding>(
       node, scopedEnum(edge), StyleLength::percent(percent));
 }
 
@@ -267,7 +276,7 @@ void YGNodeStyleSetBorder(
     const YGNodeRef node,
     const YGEdge edge,
     const float border) {
-  updateStyle<&Style::border, &Style::setBorder>(
+  updateStyle<Edge, Style::Length, &Style::border, &Style::setBorder>(
       node, scopedEnum(edge), StyleLength::points(border));
 }
 
@@ -284,12 +293,12 @@ void YGNodeStyleSetGap(
     const YGNodeRef node,
     const YGGutter gutter,
     const float gapLength) {
-  updateStyle<&Style::gap, &Style::setGap>(
+  updateStyle<Gutter, Style::Length, &Style::gap, &Style::setGap>(
       node, scopedEnum(gutter), StyleLength::points(gapLength));
 }
 
 void YGNodeStyleSetGapPercent(YGNodeRef node, YGGutter gutter, float percent) {
-  updateStyle<&Style::gap, &Style::setGap>(
+  updateStyle<Gutter, Style::Length, &Style::gap, &Style::setGap>(
       node, scopedEnum(gutter), StyleLength::percent(percent));
 }
 
@@ -298,7 +307,7 @@ YGValue YGNodeStyleGetGap(const YGNodeConstRef node, const YGGutter gutter) {
 }
 
 void YGNodeStyleSetAspectRatio(const YGNodeRef node, const float aspectRatio) {
-  updateStyle<&Style::aspectRatio, &Style::setAspectRatio>(
+  updateStyle<FloatOptional, &Style::aspectRatio, &Style::setAspectRatio>(
       node, FloatOptional{aspectRatio});
 }
 
@@ -308,7 +317,7 @@ float YGNodeStyleGetAspectRatio(const YGNodeConstRef node) {
 }
 
 void YGNodeStyleSetBoxSizing(YGNodeRef node, YGBoxSizing boxSizing) {
-  updateStyle<&Style::boxSizing, &Style::setBoxSizing>(
+  updateStyle<BoxSizing, &Style::boxSizing, &Style::setBoxSizing>(
       node, scopedEnum(boxSizing));
 }
 
@@ -317,32 +326,32 @@ YGBoxSizing YGNodeStyleGetBoxSizing(const YGNodeConstRef node) {
 }
 
 void YGNodeStyleSetWidth(YGNodeRef node, float points) {
-  updateStyle<&Style::dimension, &Style::setDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::dimension, &Style::setDimension>(
       node, Dimension::Width, StyleSizeLength::points(points));
 }
 
 void YGNodeStyleSetWidthPercent(YGNodeRef node, float percent) {
-  updateStyle<&Style::dimension, &Style::setDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::dimension, &Style::setDimension>(
       node, Dimension::Width, StyleSizeLength::percent(percent));
 }
 
 void YGNodeStyleSetWidthAuto(YGNodeRef node) {
-  updateStyle<&Style::dimension, &Style::setDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::dimension, &Style::setDimension>(
       node, Dimension::Width, StyleSizeLength::ofAuto());
 }
 
 void YGNodeStyleSetWidthMaxContent(YGNodeRef node) {
-  updateStyle<&Style::dimension, &Style::setDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::dimension, &Style::setDimension>(
       node, Dimension::Width, StyleSizeLength::ofMaxContent());
 }
 
 void YGNodeStyleSetWidthFitContent(YGNodeRef node) {
-  updateStyle<&Style::dimension, &Style::setDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::dimension, &Style::setDimension>(
       node, Dimension::Width, StyleSizeLength::ofFitContent());
 }
 
 void YGNodeStyleSetWidthStretch(YGNodeRef node) {
-  updateStyle<&Style::dimension, &Style::setDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::dimension, &Style::setDimension>(
       node, Dimension::Width, StyleSizeLength::ofStretch());
 }
 
@@ -351,32 +360,32 @@ YGValue YGNodeStyleGetWidth(YGNodeConstRef node) {
 }
 
 void YGNodeStyleSetHeight(YGNodeRef node, float points) {
-  updateStyle<&Style::dimension, &Style::setDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::dimension, &Style::setDimension>(
       node, Dimension::Height, StyleSizeLength::points(points));
 }
 
 void YGNodeStyleSetHeightPercent(YGNodeRef node, float percent) {
-  updateStyle<&Style::dimension, &Style::setDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::dimension, &Style::setDimension>(
       node, Dimension::Height, StyleSizeLength::percent(percent));
 }
 
 void YGNodeStyleSetHeightAuto(YGNodeRef node) {
-  updateStyle<&Style::dimension, &Style::setDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::dimension, &Style::setDimension>(
       node, Dimension::Height, StyleSizeLength::ofAuto());
 }
 
 void YGNodeStyleSetHeightMaxContent(YGNodeRef node) {
-  updateStyle<&Style::dimension, &Style::setDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::dimension, &Style::setDimension>(
       node, Dimension::Height, StyleSizeLength::ofMaxContent());
 }
 
 void YGNodeStyleSetHeightFitContent(YGNodeRef node) {
-  updateStyle<&Style::dimension, &Style::setDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::dimension, &Style::setDimension>(
       node, Dimension::Height, StyleSizeLength::ofFitContent());
 }
 
 void YGNodeStyleSetHeightStretch(YGNodeRef node) {
-  updateStyle<&Style::dimension, &Style::setDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::dimension, &Style::setDimension>(
       node, Dimension::Height, StyleSizeLength::ofStretch());
 }
 
@@ -385,27 +394,27 @@ YGValue YGNodeStyleGetHeight(YGNodeConstRef node) {
 }
 
 void YGNodeStyleSetMinWidth(const YGNodeRef node, const float minWidth) {
-  updateStyle<&Style::minDimension, &Style::setMinDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::minDimension, &Style::setMinDimension>(
       node, Dimension::Width, StyleSizeLength::points(minWidth));
 }
 
 void YGNodeStyleSetMinWidthPercent(const YGNodeRef node, const float minWidth) {
-  updateStyle<&Style::minDimension, &Style::setMinDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::minDimension, &Style::setMinDimension>(
       node, Dimension::Width, StyleSizeLength::percent(minWidth));
 }
 
 void YGNodeStyleSetMinWidthMaxContent(const YGNodeRef node) {
-  updateStyle<&Style::minDimension, &Style::setMinDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::minDimension, &Style::setMinDimension>(
       node, Dimension::Width, StyleSizeLength::ofMaxContent());
 }
 
 void YGNodeStyleSetMinWidthFitContent(const YGNodeRef node) {
-  updateStyle<&Style::minDimension, &Style::setMinDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::minDimension, &Style::setMinDimension>(
       node, Dimension::Width, StyleSizeLength::ofFitContent());
 }
 
 void YGNodeStyleSetMinWidthStretch(const YGNodeRef node) {
-  updateStyle<&Style::minDimension, &Style::setMinDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::minDimension, &Style::setMinDimension>(
       node, Dimension::Width, StyleSizeLength::ofStretch());
 }
 
@@ -414,29 +423,29 @@ YGValue YGNodeStyleGetMinWidth(const YGNodeConstRef node) {
 }
 
 void YGNodeStyleSetMinHeight(const YGNodeRef node, const float minHeight) {
-  updateStyle<&Style::minDimension, &Style::setMinDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::minDimension, &Style::setMinDimension>(
       node, Dimension::Height, StyleSizeLength::points(minHeight));
 }
 
 void YGNodeStyleSetMinHeightPercent(
     const YGNodeRef node,
     const float minHeight) {
-  updateStyle<&Style::minDimension, &Style::setMinDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::minDimension, &Style::setMinDimension>(
       node, Dimension::Height, StyleSizeLength::percent(minHeight));
 }
 
 void YGNodeStyleSetMinHeightMaxContent(const YGNodeRef node) {
-  updateStyle<&Style::minDimension, &Style::setMinDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::minDimension, &Style::setMinDimension>(
       node, Dimension::Height, StyleSizeLength::ofMaxContent());
 }
 
 void YGNodeStyleSetMinHeightFitContent(const YGNodeRef node) {
-  updateStyle<&Style::minDimension, &Style::setMinDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::minDimension, &Style::setMinDimension>(
       node, Dimension::Height, StyleSizeLength::ofFitContent());
 }
 
 void YGNodeStyleSetMinHeightStretch(const YGNodeRef node) {
-  updateStyle<&Style::minDimension, &Style::setMinDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::minDimension, &Style::setMinDimension>(
       node, Dimension::Height, StyleSizeLength::ofStretch());
 }
 
@@ -445,27 +454,27 @@ YGValue YGNodeStyleGetMinHeight(const YGNodeConstRef node) {
 }
 
 void YGNodeStyleSetMaxWidth(const YGNodeRef node, const float maxWidth) {
-  updateStyle<&Style::maxDimension, &Style::setMaxDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::maxDimension, &Style::setMaxDimension>(
       node, Dimension::Width, StyleSizeLength::points(maxWidth));
 }
 
 void YGNodeStyleSetMaxWidthPercent(const YGNodeRef node, const float maxWidth) {
-  updateStyle<&Style::maxDimension, &Style::setMaxDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::maxDimension, &Style::setMaxDimension>(
       node, Dimension::Width, StyleSizeLength::percent(maxWidth));
 }
 
 void YGNodeStyleSetMaxWidthMaxContent(const YGNodeRef node) {
-  updateStyle<&Style::maxDimension, &Style::setMaxDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::maxDimension, &Style::setMaxDimension>(
       node, Dimension::Width, StyleSizeLength::ofMaxContent());
 }
 
 void YGNodeStyleSetMaxWidthFitContent(const YGNodeRef node) {
-  updateStyle<&Style::maxDimension, &Style::setMaxDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::maxDimension, &Style::setMaxDimension>(
       node, Dimension::Width, StyleSizeLength::ofFitContent());
 }
 
 void YGNodeStyleSetMaxWidthStretch(const YGNodeRef node) {
-  updateStyle<&Style::maxDimension, &Style::setMaxDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::maxDimension, &Style::setMaxDimension>(
       node, Dimension::Width, StyleSizeLength::ofStretch());
 }
 
@@ -474,29 +483,29 @@ YGValue YGNodeStyleGetMaxWidth(const YGNodeConstRef node) {
 }
 
 void YGNodeStyleSetMaxHeight(const YGNodeRef node, const float maxHeight) {
-  updateStyle<&Style::maxDimension, &Style::setMaxDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::maxDimension, &Style::setMaxDimension>(
       node, Dimension::Height, StyleSizeLength::points(maxHeight));
 }
 
 void YGNodeStyleSetMaxHeightPercent(
     const YGNodeRef node,
     const float maxHeight) {
-  updateStyle<&Style::maxDimension, &Style::setMaxDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::maxDimension, &Style::setMaxDimension>(
       node, Dimension::Height, StyleSizeLength::percent(maxHeight));
 }
 
 void YGNodeStyleSetMaxHeightMaxContent(const YGNodeRef node) {
-  updateStyle<&Style::maxDimension, &Style::setMaxDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::maxDimension, &Style::setMaxDimension>(
       node, Dimension::Height, StyleSizeLength::ofMaxContent());
 }
 
 void YGNodeStyleSetMaxHeightFitContent(const YGNodeRef node) {
-  updateStyle<&Style::maxDimension, &Style::setMaxDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::maxDimension, &Style::setMaxDimension>(
       node, Dimension::Height, StyleSizeLength::ofFitContent());
 }
 
 void YGNodeStyleSetMaxHeightStretch(const YGNodeRef node) {
-  updateStyle<&Style::maxDimension, &Style::setMaxDimension>(
+  updateStyle<Dimension, Style::SizeLength, &Style::maxDimension, &Style::setMaxDimension>(
       node, Dimension::Height, StyleSizeLength::ofStretch());
 }
 

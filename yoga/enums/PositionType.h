@@ -13,7 +13,8 @@
 #include <yoga/YGEnums.h>
 #include <yoga/enums/YogaEnums.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 enum class PositionType : uint8_t {
   Static = YGPositionTypeStatic,
@@ -38,4 +39,5 @@ inline const char* toString(PositionType e) {
   return YGPositionTypeToString(unscopedEnum(e));
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

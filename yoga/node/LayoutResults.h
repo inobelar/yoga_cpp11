@@ -17,12 +17,19 @@
 #include <yoga/node/CachedMeasurement.h>
 #include <yoga/numeric/FloatOptional.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 struct LayoutResults {
   // This value was chosen based on empirical data:
   // 98% of analyzed layouts require less than 8 entries.
   static constexpr int32_t MaxCachedMeasurements = 8;
+
+  LayoutResults()
+    // Member bit-fields initialization
+    : direction_{Direction::Inherit}
+    , hadOverflow_{false}
+  {}
 
   uint32_t computedFlexBasisGeneration = 0;
   FloatOptional computedFlexBasis = {};
@@ -108,8 +115,8 @@ struct LayoutResults {
   }
 
  private:
-  Direction direction_ : bitCount<Direction>() = Direction::Inherit;
-  bool hadOverflow_ : 1 = false;
+  Direction direction_ : bitCount<Direction>(); // Default: Direction::Inherit
+  bool hadOverflow_ : 1; // Default: false
 
   std::array<float, 2> dimensions_ = {{YGUndefined, YGUndefined}};
   std::array<float, 2> measuredDimensions_ = {{YGUndefined, YGUndefined}};
@@ -119,4 +126,5 @@ struct LayoutResults {
   std::array<float, 4> padding_ = {};
 };
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

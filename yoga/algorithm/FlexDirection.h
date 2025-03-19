@@ -16,7 +16,8 @@
 #include <yoga/enums/FlexDirection.h>
 #include <yoga/enums/PhysicalEdge.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 inline bool isRow(const FlexDirection flexDirection) {
   return flexDirection == FlexDirection::Row ||
@@ -117,4 +118,5 @@ inline Dimension dimension(FlexDirection flexDirection) {
   fatalWithMessage("Invalid FlexDirection");
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

@@ -24,6 +24,32 @@ file(GLOB SOURCES CONFIGURE_DEPENDS
 
 add_library(yogacore STATIC ${SOURCES})
 
+# ------------------------------------------------------------------------------
+# Force library build with C++11, without any extensions.
+
+set_target_properties(yogacore PROPERTIES CXX_STANDARD 11)
+set_target_properties(yogacore PROPERTIES CXX_STANDARD_REQUIRED ON)
+set_target_properties(yogacore PROPERTIES CXX_EXTENSIONS OFF)
+
+if(MSVC)
+
+  # TODO
+
+else()
+
+  target_compile_options(yogacore
+    PRIVATE
+      -std=c++11        # Force the exact standard
+      -pedantic-errors  # Error out on any non-conforming constructs
+      -Wall
+      -Wextra
+      -Werror
+  )
+
+endif()
+
+# ------------------------------------------------------------------------------
+
 # Yoga conditionally uses <android/log> when building for Android
 if (ANDROID)
     target_link_libraries(yogacore log)

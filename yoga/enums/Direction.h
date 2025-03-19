@@ -13,7 +13,8 @@
 #include <yoga/YGEnums.h>
 #include <yoga/enums/YogaEnums.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 enum class Direction : uint8_t {
   Inherit = YGDirectionInherit,
@@ -38,4 +39,5 @@ inline const char* toString(Direction e) {
   return YGDirectionToString(unscopedEnum(e));
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

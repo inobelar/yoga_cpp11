@@ -15,7 +15,7 @@ using namespace facebook::yoga;
 
 namespace {
 
-template <auto LayoutMember>
+template <float (LayoutResults::*LayoutMember)(PhysicalEdge) const>
 float getResolvedLayoutProperty(const YGNodeConstRef nodeRef, const Edge edge) {
   const auto node = resolveRef(nodeRef);
   yoga::assertFatalWithNode(

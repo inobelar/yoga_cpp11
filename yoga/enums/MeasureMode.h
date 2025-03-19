@@ -13,7 +13,8 @@
 #include <yoga/YGEnums.h>
 #include <yoga/enums/YogaEnums.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 enum class MeasureMode : uint8_t {
   Undefined = YGMeasureModeUndefined,
@@ -38,4 +39,5 @@ inline const char* toString(MeasureMode e) {
   return YGMeasureModeToString(unscopedEnum(e));
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

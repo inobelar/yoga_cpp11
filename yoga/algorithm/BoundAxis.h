@@ -14,7 +14,8 @@
 #include <yoga/numeric/Comparison.h>
 #include <yoga/numeric/FloatOptional.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 inline float paddingAndBorderForAxis(
     const yoga::Node* const node,
@@ -76,4 +77,5 @@ inline float boundAxis(
       paddingAndBorderForAxis(node, axis, direction, widthSize));
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

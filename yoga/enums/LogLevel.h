@@ -13,7 +13,8 @@
 #include <yoga/YGEnums.h>
 #include <yoga/enums/YogaEnums.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 enum class LogLevel : uint8_t {
   Error = YGLogLevelError,
@@ -41,4 +42,5 @@ inline const char* toString(LogLevel e) {
   return YGLogLevelToString(unscopedEnum(e));
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook

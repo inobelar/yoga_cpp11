@@ -11,7 +11,8 @@
 #include <yoga/algorithm/FlexDirection.h>
 #include <yoga/algorithm/FlexLine.h>
 
-namespace facebook::yoga {
+namespace facebook {
+namespace yoga {
 
 FlexLine calculateFlexLine(
     yoga::Node* const node,
@@ -112,13 +113,14 @@ FlexLine calculateFlexLine(
   }
 
   return FlexLine{
-      .itemsInFlow = std::move(itemsInFlow),
-      .sizeConsumed = sizeConsumed,
-      .numberOfAutoMargins = numberOfAutoMargins,
-      .layout = FlexLineRunningLayout{
+      std::move(itemsInFlow), // itemsInFlow
+      sizeConsumed,           // sizeConsumed
+      numberOfAutoMargins,    // numberOfAutoMargins
+      FlexLineRunningLayout{  // layout
           totalFlexGrowFactors,
           totalFlexShrinkScaledFactors,
       }};
 }
 
-} // namespace facebook::yoga
+} // namespace yoga
+} // namespace facebook
