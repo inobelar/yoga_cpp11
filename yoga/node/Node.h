@@ -61,7 +61,7 @@ class YG_EXPORT Node : public ::YGNode {
   }
 
   NodeType getNodeType() const {
-    return nodeType_;
+    return static_cast<NodeType>(nodeType_);
   }
 
   bool hasMeasureFunc() const noexcept {
@@ -212,7 +212,7 @@ class YG_EXPORT Node : public ::YGNode {
   }
 
   void setNodeType(NodeType nodeType) {
-    nodeType_ = nodeType;
+    nodeType_ = yoga::to_underlying(nodeType);
   }
 
   void setMeasureFunc(YGMeasureFunc measureFunc);
@@ -311,7 +311,7 @@ class YG_EXPORT Node : public ::YGNode {
   bool isReferenceBaseline_ : 1; // Default: false
   bool isDirty_ : 1; // Default: true
   bool alwaysFormsContainingBlock_ : 1; // Default: false
-  NodeType nodeType_ : bitCount<NodeType>(); // Default: NodeType::Default
+  typename std::underlying_type<NodeType>::type nodeType_ : bitCount<NodeType>(); // Default: NodeType::Default
   void* context_ = nullptr;
   YGMeasureFunc measureFunc_ = nullptr;
   YGBaselineFunc baselineFunc_ = nullptr;

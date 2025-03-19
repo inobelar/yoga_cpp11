@@ -26,7 +26,7 @@ Node::Node(const yoga::Config* config)
   , isReferenceBaseline_{false}
   , isDirty_{true}
   , alwaysFormsContainingBlock_{false}
-  , nodeType_{NodeType::Default}
+  , nodeType_{yoga::to_underlying(NodeType::Default)}
 
   , config_{config}
 {

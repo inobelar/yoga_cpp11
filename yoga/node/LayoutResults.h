@@ -27,7 +27,7 @@ struct LayoutResults {
 
   LayoutResults()
     // Member bit-fields initialization
-    : direction_{Direction::Inherit}
+    : direction_{yoga::to_underlying(Direction::Inherit)}
     , hadOverflow_{false}
   {}
 
@@ -46,11 +46,11 @@ struct LayoutResults {
   CachedMeasurement cachedLayout{};
 
   Direction direction() const {
-    return direction_;
+    return static_cast<Direction>(direction_);
   }
 
   void setDirection(Direction direction) {
-    direction_ = direction;
+    direction_ = yoga::to_underlying(direction);
   }
 
   bool hadOverflow() const {
@@ -115,7 +115,7 @@ struct LayoutResults {
   }
 
  private:
-  Direction direction_ : bitCount<Direction>(); // Default: Direction::Inherit
+  typename std::underlying_type<Direction>::type direction_ : bitCount<Direction>(); // Default: Direction::Inherit
   bool hadOverflow_ : 1; // Default: false
 
   std::array<float, 2> dimensions_ = {{YGUndefined, YGUndefined}};

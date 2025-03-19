@@ -49,87 +49,87 @@ class YG_EXPORT Style {
 
   Style()
     // Member bit-fields initialization
-    : direction_{Direction::Inherit}
-    , flexDirection_{FlexDirection::Column}
-    , justifyContent_{Justify::FlexStart}
-    , alignContent_{Align::FlexStart}
-    , alignItems_{Align::Stretch}
-    , alignSelf_{Align::Auto}
-    , positionType_{PositionType::Relative}
-    , flexWrap_{Wrap::NoWrap}
-    , overflow_{Overflow::Visible}
-    , display_{Display::Flex}
-    , boxSizing_{BoxSizing::BorderBox}
+    : direction_{yoga::to_underlying(Direction::Inherit)}
+    , flexDirection_{yoga::to_underlying(FlexDirection::Column)}
+    , justifyContent_{yoga::to_underlying(Justify::FlexStart)}
+    , alignContent_{yoga::to_underlying(Align::FlexStart)}
+    , alignItems_{yoga::to_underlying(Align::Stretch)}
+    , alignSelf_{yoga::to_underlying(Align::Auto)}
+    , positionType_{yoga::to_underlying(PositionType::Relative)}
+    , flexWrap_{yoga::to_underlying(Wrap::NoWrap)}
+    , overflow_{yoga::to_underlying(Overflow::Visible)}
+    , display_{yoga::to_underlying(Display::Flex)}
+    , boxSizing_{yoga::to_underlying(BoxSizing::BorderBox)}
   {}
 
   Direction direction() const {
-    return direction_;
+    return static_cast<Direction>(direction_);
   }
   void setDirection(Direction value) {
-    direction_ = value;
+    direction_ = yoga::to_underlying(value);
   }
 
   FlexDirection flexDirection() const {
-    return flexDirection_;
+    return static_cast<FlexDirection>(flexDirection_);
   }
   void setFlexDirection(FlexDirection value) {
-    flexDirection_ = value;
+    flexDirection_ = yoga::to_underlying(value);
   }
 
   Justify justifyContent() const {
-    return justifyContent_;
+    return static_cast<Justify>(justifyContent_);
   }
   void setJustifyContent(Justify value) {
-    justifyContent_ = value;
+    justifyContent_ = yoga::to_underlying(value);
   }
 
   Align alignContent() const {
-    return alignContent_;
+    return static_cast<Align>(alignContent_);
   }
   void setAlignContent(Align value) {
-    alignContent_ = value;
+    alignContent_ = yoga::to_underlying(value);
   }
 
   Align alignItems() const {
-    return alignItems_;
+    return static_cast<Align>(alignItems_);
   }
   void setAlignItems(Align value) {
-    alignItems_ = value;
+    alignItems_ = yoga::to_underlying(value);
   }
 
   Align alignSelf() const {
-    return alignSelf_;
+    return static_cast<Align>(alignSelf_);
   }
   void setAlignSelf(Align value) {
-    alignSelf_ = value;
+    alignSelf_ = yoga::to_underlying(value);
   }
 
   PositionType positionType() const {
-    return positionType_;
+    return static_cast<PositionType>(positionType_);
   }
   void setPositionType(PositionType value) {
-    positionType_ = value;
+    positionType_ = yoga::to_underlying(value);
   }
 
   Wrap flexWrap() const {
-    return flexWrap_;
+    return static_cast<Wrap>(flexWrap_);
   }
   void setFlexWrap(Wrap value) {
-    flexWrap_ = value;
+    flexWrap_ = yoga::to_underlying(value);
   }
 
   Overflow overflow() const {
-    return overflow_;
+    return static_cast<Overflow>(overflow_);
   }
   void setOverflow(Overflow value) {
-    overflow_ = value;
+    overflow_ = yoga::to_underlying(value);
   }
 
   Display display() const {
-    return display_;
+    return static_cast<Display>(display_);
   }
   void setDisplay(Display value) {
-    display_ = value;
+    display_ = yoga::to_underlying(value);
   }
 
   FloatOptional flex() const {
@@ -264,10 +264,10 @@ class YG_EXPORT Style {
   }
 
   BoxSizing boxSizing() const {
-    return boxSizing_;
+    return static_cast<BoxSizing>(boxSizing_);
   }
   void setBoxSizing(BoxSizing value) {
-    boxSizing_ = value;
+    boxSizing_ = yoga::to_underlying(value);
   }
 
   bool horizontalInsetsDefined() const {
@@ -741,19 +741,17 @@ class YG_EXPORT Style {
     fatalWithMessage("Invalid physical edge");
   }
 
-  Direction direction_ : bitCount<Direction>(); // Default: Direction::Inherit
-  FlexDirection flexDirection_
-      : bitCount<FlexDirection>(); // Default: FlexDirection::Column
-  Justify justifyContent_ : bitCount<Justify>(); // Default: Justify::FlexStart
-  Align alignContent_ : bitCount<Align>(); // Default: Align::FlexStart
-  Align alignItems_ : bitCount<Align>(); // Default: Align::Stretch
-  Align alignSelf_ : bitCount<Align>(); // Default: Align::Auto
-  PositionType positionType_
-      : bitCount<PositionType>(); // Default: PositionType::Relative
-  Wrap flexWrap_ : bitCount<Wrap>(); // Default: Wrap::NoWrap
-  Overflow overflow_ : bitCount<Overflow>(); // Default: Overflow::Visible
-  Display display_ : bitCount<Display>(); // Default: Display::Flex
-  BoxSizing boxSizing_ : bitCount<BoxSizing>(); // Default: BoxSizing::BorderBox
+  typename std::underlying_type<Direction    >::type direction_      : bitCount<Direction>();     // Default: Direction::Inherit
+  typename std::underlying_type<FlexDirection>::type flexDirection_  : bitCount<FlexDirection>(); // Default: FlexDirection::Column
+  typename std::underlying_type<Justify      >::type justifyContent_ : bitCount<Justify>();       // Default: Justify::FlexStart
+  typename std::underlying_type<Align        >::type alignContent_   : bitCount<Align>();         // Default: Align::FlexStart
+  typename std::underlying_type<Align        >::type alignItems_     : bitCount<Align>();         // Default: Align::Stretch
+  typename std::underlying_type<Align        >::type alignSelf_      : bitCount<Align>();         // Default: Align::Auto
+  typename std::underlying_type<PositionType >::type positionType_   : bitCount<PositionType>();  // Default: PositionType::Relative
+  typename std::underlying_type<Wrap         >::type flexWrap_       : bitCount<Wrap>();          // Default: Wrap::NoWrap
+  typename std::underlying_type<Overflow     >::type overflow_       : bitCount<Overflow>();      // Default: Overflow::Visible
+  typename std::underlying_type<Display      >::type display_        : bitCount<Display>();       // Default: Display::Flex
+  typename std::underlying_type<BoxSizing    >::type boxSizing_      : bitCount<BoxSizing>();     // Default: BoxSizing::BorderBox
 
   StyleValueHandle flex_{};
   StyleValueHandle flexGrow_{};
