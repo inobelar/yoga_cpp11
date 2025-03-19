@@ -8,7 +8,7 @@
 #pragma once
 
 #include <cstring>
-#include <type_traits>
+#include <yoga/compat/type_traits.h>
 
 namespace facebook {
 namespace yoga {
@@ -18,14 +18,32 @@ namespace compat {
 // Polyfill for std::bit_cast() from C++20, to allow safe type punning.
 // https://en.cppreference.com/w/cpp/numeric/bit_cast
 template <class To, class From>
-typename std::enable_if<
-    sizeof(To) == sizeof(From) &&
-    std::is_trivially_copyable<From>::value &&
-    std::is_trivially_copyable<To>::value &&
-    std::is_trivially_constructible<To>::value,
-    To
->::type
-inline bit_cast(const From& src) noexcept {
+inline To bit_cast(const From& src) noexcept {
+
+  /*
+   * NOTE: instead of usage std::enable_if as return type:
+   *
+   *   typename std::enable_if<
+   *     sizeof(To) == sizeof(From) &&
+   *     yoga_is_trivially_copyable(From) &&
+   *     yoga_is_trivially_copyable(To) &&
+   *     yoga_is_trivially_constructible(To),
+   *     To
+   *   >::type
+   *
+   * Here is used static_assert's for the same purpose.
+   *
+   * Because in old compilers (like g++ < 5.0) missing type traits will fallback
+   * into 'built-in traits', that cannot be used in function signature, and we
+   * can see the next error:
+   *
+   *   error: use of built-in trait ‘__has_trivial_copy(From)’ in function signature; use library traits instead
+   */
+  static_assert(sizeof(To) == sizeof(From),          "sizeof(To) != sizeof(From)");
+  static_assert(yoga_is_trivially_copyable(From),    "'From' is not trivially copyable");
+  static_assert(yoga_is_trivially_copyable(To),      "'To' is not trivially copyable");
+  static_assert(yoga_is_trivially_constructible(To), "'To' is not trivially constructible");
+
   To dst;
   std::memcpy(&dst, &src, sizeof(To));
   return dst;
