@@ -15,7 +15,7 @@ In our imperfect world, the number of such systems is greater than it seems, and
 such a useful library as Yoga should be distributed as widely as possible.
 
 > [!TIP]
-> Current state: based on [6455a84](https://github.com/facebook/yoga/commit/6455a848a76f433bdb48b2640b7f4644774c76fd) commit (Mar 11, 2025)
+> Current state: based on [51e6095](https://github.com/facebook/yoga/commit/51e6095005fd713dbfcbaf2c6296009de782d966) commit (Mar 24, 2025)
 
 > [!NOTE]
 > Tested on `GCC 4.9.2` (Released: October 30, 2014)
