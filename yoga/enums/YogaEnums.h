@@ -56,7 +56,7 @@ to_underlying(EnumT e) noexcept {
   return static_cast<typename std::underlying_type<EnumT>::type>(e);
 }
 
-namespace details {
+namespace detail {
 
   template <typename EnumT>
   struct Iterator {
@@ -87,17 +87,17 @@ namespace details {
     }
   };
 
-} // namespace details
+} // namespace detail
 
 /**
  * Convenience function to iterate through every value in a Yoga enum as part of
  * a range-based for loop.
  */
 template <typename EnumT>
-details::Range<EnumT> ordinals()
+detail::Range<EnumT> ordinals()
 {
   static_assert(HasOrdinality<EnumT>() == true, "EnumT not has ordinality");
-  return details::Range<EnumT>{};
+  return detail::Range<EnumT>{};
 }
 
 } // namespace yoga

@@ -14,7 +14,7 @@ namespace yoga {
 
 namespace compat {
 
-namespace details {
+namespace detail {
 
   // random-access iterator implementation (allows quick range size detection)
   template <class RandomIt1, class RandomIt2, class BinaryPred>
@@ -51,7 +51,7 @@ namespace details {
     return first1 == last1 && first2 == last2;
   }
 
-} // namespace details
+} // namespace detail
 
 // Polyfill for std::equal() from C++17.
 // https://en.cppreference.com/w/cpp/algorithm/equal
@@ -60,7 +60,7 @@ constexpr //< since C++20
 bool equal(InputIt1 first1, InputIt1 last1,
            InputIt2 first2, InputIt2 last2, BinaryPred p)
 {
-  return details::equal(
+  return detail::equal(
     first1, last1, first2, last2, p,
     typename std::iterator_traits<InputIt1>::iterator_category(),
     typename std::iterator_traits<InputIt2>::iterator_category()

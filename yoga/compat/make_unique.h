@@ -17,7 +17,7 @@ namespace compat {
 // Polyfill for std::make_unique<T>() from C++14.
 // https://en.cppreference.com/w/cpp/memory/unique_ptr/make_unique
 
-namespace details {
+namespace detail {
 
   template<class>
   struct is_unbounded_array { static constexpr bool value = false; };
@@ -29,7 +29,7 @@ namespace details {
   template<class T, std::size_t N>
   struct is_bounded_array<T[N]> { static constexpr bool value = true; };
 
-} // namespace details
+} // namespace detail
 
 template <class T, class... Args>
 typename std::enable_if<!std::is_array<T>::value, std::unique_ptr<T>>::type
@@ -39,14 +39,14 @@ make_unique(Args&&... args)
 }
 
 template <class T>
-typename std::enable_if<details::is_unbounded_array<T>::value, std::unique_ptr<T>>::type
+typename std::enable_if<detail::is_unbounded_array<T>::value, std::unique_ptr<T>>::type
 make_unique(std::size_t n)
 {
   return std::unique_ptr<T>(new typename std::remove_extent<T>::type [n]());
 }
 
 template <class T, class... Args>
-typename std::enable_if<details::is_bounded_array<T>::value>::type
+typename std::enable_if<detail::is_bounded_array<T>::value>::type
 make_unique(Args&&...) = delete;
 
 } // namespace compat

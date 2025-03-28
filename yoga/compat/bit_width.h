@@ -14,7 +14,7 @@ namespace yoga {
 
 namespace compat {
 
-namespace details {
+namespace detail {
 
 template <typename T>
 constexpr typename std::make_unsigned<T>::type to_unsigned(T value) {
@@ -31,7 +31,7 @@ constexpr int bit_width_recursive(T value) {
       1 + bit_width_recursive(value >> 1);
 }
 
-} // namespace details
+} // namespace detail
 
 // Polyfill for std::bit_width() from C++20.
 // https://en.cppreference.com/w/cpp/numeric/bit_width
@@ -50,7 +50,7 @@ constexpr int bit_width(T value) {
 
   // Convert to unsigned to avoid complications with right shifting signed types
   using U = typename std::make_unsigned<T>::type;
-  return details::bit_width_recursive<U>( details::to_unsigned(value) );
+  return detail::bit_width_recursive<U>( detail::to_unsigned(value) );
 }
 
 } // namespace compat
